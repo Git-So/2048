@@ -1,0 +1,193 @@
+g-main {
+  width: 94%;
+  max-width: 28rem;
+  margin: 1rem auto;
+  display: block;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+g-status-bar,
+g-box,
+g-alert {
+  display: block;
+  @include outside-box-shadow;
+  @include border-radius;
+  overflow: hidden;
+  margin: 1rem 0;
+  padding: 0.6rem;
+}
+
+g-status-bar {
+  display: flex;
+  height: 4.7rem;
+
+  g-result {
+    display: flex;
+    flex: 4;
+    background: var(--box-bg-color);
+    margin-right: 0.5rem;
+    line-height: 3.5rem;
+    @include inside-box-shadow;
+
+    g-label {
+      flex: 1;
+      padding-left: 1rem;
+
+      g-icon {
+        // margin: 0.3rem;
+        transform: translateY(-5%);
+      }
+      g-value {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  g-setting {
+    flex: 2;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+
+    g-button {
+      display: inline-block;
+      width: 3.5rem;
+      height: 3.5rem;
+      padding: 0.5rem;
+      text-align: center;
+      @include outside-box-shadow;
+      @include border-radius;
+
+      &:active {
+        @include inside-box-shadow;
+      }
+
+      span {
+        display: block;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+g-box {
+  position: relative;
+  height: 94vw;
+  max-height: 28rem;
+  padding: 0;
+  border: 1rem solid var(--bg-color);
+  background-color: var(--box-bg-color);
+  box-shadow: 0.36rem 0.36rem 0.6rem var(--box-shadow-inset-1),
+    -0.36rem -0.36rem 0.6rem var(--box-shadow-inset-2), 0 0 transparent,
+    inset 0.18rem 0.18rem 0.3rem var(--box-shadow-inset-1),
+    inset -0.18rem -0.18rem 0.3rem var(--box-shadow-inset-2);
+
+  g-layer {
+    position: absolute;
+    width: 96%;
+    height: 96%;
+    margin: 2%;
+    background: transparent;
+
+    &[is-content="true"] {
+      g-cell::before {
+        display: none;
+      }
+    }
+
+    g-cell {
+      --translateX: translateX(0%);
+      --translateY: translateY(0%);
+      position: absolute;
+      display: inline-block;
+      background: transparent;
+      width: 25%;
+      height: 25%;
+      padding: 1%;
+      transform: var(--translateX) var(--translateY);
+
+      &::before {
+        content: "";
+        display: inline-block;
+        background-color: var(--bg-color);
+        width: 100%;
+        height: 100%;
+        opacity: 0.6;
+        @include border-radius;
+      }
+
+      &[x="1"] {
+        --translateX: translateX(100%);
+      }
+      &[x="2"] {
+        --translateX: translateX(200%);
+      }
+      &[x="3"] {
+        --translateX: translateX(300%);
+      }
+
+      &[y="1"] {
+        --translateY: translateY(100%);
+      }
+      &[y="2"] {
+        --translateY: translateY(200%);
+      }
+      &[y="3"] {
+        --translateY: translateY(300%);
+      }
+
+      g-number {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5rem;
+        animation: merge 200ms ease-in 100ms;
+        @include outside-box-shadow;
+        @include border-radius;
+
+        &::before {
+          content: attr(content);
+          position: absolute;
+          width: 100%;
+          background-color: var(--bg-color);
+          text-align: center;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        &[content="2"],
+        &[content="4"],
+        &[content="8"] {
+          font-size: 3.5rem;
+        }
+
+        &[content="16"],
+        &[content="32"],
+        &[content="64"] {
+          font-size: 3rem;
+        }
+
+        &[content="128"],
+        &[content="256"],
+        &[content="512"] {
+          font-size: 2.4rem;
+        }
+
+        &[content="1024"],
+        &[content="2048"] {
+          font-size: 2rem;
+        }
+      }
+    }
+  }
+}
+
+g-alert {
+  border-radius: 1.5em;
+  margin: 0 1rem;
+  padding: 0.8rem 0;
+  text-align: center;
+}

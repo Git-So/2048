@@ -1,11 +1,83 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Webpack App</title>
-    </head>
-    <body>
-        <h1>Hello world!</h1>
-        <h2>Tip: Check your console</h2>
-    </body>
+<html lang="zh-cmn-Hans" theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <title>2048</title>
+    <style type="text/css">
+      g-main {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <g-main>
+      <!-- 状态栏 -->
+      <g-status-bar>
+        <g-result>
+          <g-label>
+            <g-icon name="score"></g-icon>
+            <g-value id="score">32768</g-value>
+          </g-label>
+          <g-label>
+            <g-icon name="top"></g-icon>
+            <g-value id="top-score">32768</g-value>
+          </g-label>
+        </g-result>
+        <g-setting>
+          <g-button id="game-theme">
+            <g-icon name="light"></g-icon>
+            <span>主题</span>
+          </g-button>
+          <g-button id="game-restart">
+            <g-icon name="restart"></g-icon>
+            <span>重置</span>
+          </g-button>
+        </g-setting>
+      </g-status-bar>
+
+      <!-- 数字容器 -->
+      <g-box>
+        <g-layer is-content="false">
+          <g-cell x="0" y="0"></g-cell>
+          <g-cell x="1" y="0"></g-cell>
+          <g-cell x="2" y="0"></g-cell>
+          <g-cell x="3" y="0"></g-cell>
+          <g-cell x="0" y="1"></g-cell>
+          <g-cell x="1" y="1"></g-cell>
+          <g-cell x="2" y="1"></g-cell>
+          <g-cell x="3" y="1"></g-cell>
+          <g-cell x="0" y="2"></g-cell>
+          <g-cell x="1" y="2"></g-cell>
+          <g-cell x="2" y="2"></g-cell>
+          <g-cell x="3" y="2"></g-cell>
+          <g-cell x="0" y="3"></g-cell>
+          <g-cell x="1" y="3"></g-cell>
+          <g-cell x="2" y="3"></g-cell>
+          <g-cell x="3" y="3"></g-cell>
+        </g-layer>
+        <g-layer is-content="true">
+          <g-cell x="2" y="2">
+            <g-number content="2"></g-number>
+          </g-cell>
+          <g-cell x="1" y="2">
+            <g-number content="64"></g-number>
+          </g-cell>
+          <g-cell x="0" y="1">
+            <g-number content="256"></g-number>
+          </g-cell>
+          <g-cell x="3" y="1">
+            <g-number content="1024"></g-number>
+          </g-cell>
+        </g-layer>
+      </g-box>
+
+      <!-- 提示 -->
+      <g-alert>
+        <span>滑动或点击按钮开始游戏！</span>
+      </g-alert>
+    </g-main>
+  </body>
 </html>
