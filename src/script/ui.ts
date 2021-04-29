@@ -33,14 +33,14 @@ export default class UI extends Basic {
   contentLayerEl = $("g-layer[is-content=true]"); // 数字内容层
   cellTemplateNode = $("g-template g-cell"); // 数字格模板
 
-  // 修改格子数字
-  setElementNumber(el: Element, num: number) {
-    let child = this.cellTemplateNode.firstElementChild;
-    child.setAttribute("content", num.toString());
+  // 合并格子数字
+  mergeCellNumber(el: Element, num: number) {
+    let child = el.firstElementChild.cloneNode(true) as Element;
     child.setAttribute("is-merge", "true");
+    child.setAttribute("content", num.toString());
 
-    el.innerHTML = this.cellTemplateNode.innerHTML;
-    child.removeAttribute("is-merge");
+    el.innerHTML = "";
+    el.appendChild(child);
   }
 
   // 重置数据
@@ -87,14 +87,12 @@ export default class UI extends Basic {
     if (!cell) return;
 
     // 设置数字格信息
-    this.cellTemplateNode.setAttribute("x", cell.x.toString());
-    this.cellTemplateNode.setAttribute("y", cell.y.toString());
-    this.cellTemplateNode.firstElementChild.setAttribute(
-      "content",
-      cell.content.toString()
-    );
+    let cellNode = this.cellTemplateNode.cloneNode(true) as Element;
+    cellNode.setAttribute("x", cell.x.toString());
+    cellNode.setAttribute("y", cell.y.toString());
+    cellNode.firstElementChild.setAttribute("content", cell.content.toString());
 
-    this.contentLayerEl.appendChild(this.cellTemplateNode.cloneNode(true));
+    this.contentLayerEl.appendChild(cellNode);
   }
 
   // 玩游戏
@@ -145,8 +143,7 @@ export default class UI extends Basic {
 
             // 修改合并数字格
             objArr[y][x].content = objArr[y][x].content * 2;
-            this.setElementNumber(objArr[y][x].el, 0);
-            this.setElementNumber(objArr[y][x].el, objArr[y][x].content);
+            this.mergeCellNumber(objArr[y][x].el, objArr[y][x].content);
           }
           break;
         }
