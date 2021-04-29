@@ -19,11 +19,11 @@
         <g-result>
           <g-label>
             <g-icon name="score"></g-icon>
-            <g-value id="score">32768</g-value>
+            <g-value id="score">0</g-value>
           </g-label>
           <g-label>
             <g-icon name="top"></g-icon>
-            <g-value id="top-score">32768</g-value>
+            <g-value id="top-score">0</g-value>
           </g-label>
         </g-result>
         <g-setting>
@@ -58,26 +58,18 @@
           <g-cell x="2" y="3"></g-cell>
           <g-cell x="3" y="3"></g-cell>
         </g-layer>
-        <g-layer is-content="true">
-          <g-cell x="2" y="2">
-            <g-number content="2"></g-number>
-          </g-cell>
-          <g-cell x="1" y="2">
-            <g-number content="64"></g-number>
-          </g-cell>
-          <g-cell x="0" y="1">
-            <g-number content="256"></g-number>
-          </g-cell>
-          <g-cell x="3" y="1">
-            <g-number content="1024"></g-number>
-          </g-cell>
-        </g-layer>
+        <g-layer is-content="true"></g-layer>
       </g-box>
 
       <!-- 提示 -->
       <g-alert>
         <span>滑动或点击按钮开始游戏！</span>
       </g-alert>
+
+      <!-- 模板 -->
+      <g-template>
+        <g-cell x="0" y="0"><g-number content="0"></g-number></g-cell>
+      </g-template>
     </g-main>
   </body>
 </html>

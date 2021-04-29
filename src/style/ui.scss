@@ -145,8 +145,8 @@ g-box {
         width: 100%;
         height: 100%;
         border-radius: 0.5rem;
-        animation: merge 200ms ease-in 100ms;
-       
+        animation: insert 200ms ease-in 100ms;
+
         @include outside-box-shadow;
         @include border-radius;
 
@@ -192,4 +192,8 @@ g-alert {
   margin: 0 1rem;
   padding: 0.8rem 0;
   text-align: center;
+}
+
+g-template {
+  display: none;
 }
