@@ -165,6 +165,9 @@ export default class UI extends Basic {
     if (this.isLock) return;
     this.isLock = true;
 
+    // 开始前布局
+    let before = this.Data.getRecordString();
+
     // 处理数据格移动合并
     let objArr = this.Data.getNumberCellRecord();
     for (let i = 0; i < Data.COL; i++) {
@@ -224,16 +227,21 @@ export default class UI extends Basic {
       }
     }
 
-    // 开始游戏则保存记录
-    this.Config.record = this.Data.getRecordString();
+    // 开始后布局
+    let after = this.Data.getRecordString();
 
     // 生成随机数字
-    this.randomCell();
+    if (before != after) this.randomCell();
+
+    // 开始游戏则保存记录
+    this.Config.record = this.Data.getRecordString();
 
     // 状态解锁
     this.isLock = false;
 
     // 游戏结束
+    console.log(`isOver:${this.Data.isOver()}`);
+
     if (this.Data.isOver()) {
       let isSuccess = this.Config.record.indexOf("B") > -1;
 

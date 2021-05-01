@@ -98,8 +98,8 @@ export default class Data extends Basic {
     for (let y = 0; y < Data.COL - 1; y++) {
       for (let x = 0; x < Data.ROW - 1; x++) {
         if (
-          cellArr[y][x] == cellArr[y + 1][x] ||
-          cellArr[y][x] == cellArr[y][x + 1]
+          cellArr[y][x].content == cellArr[y + 1][x].content ||
+          cellArr[y][x].content == cellArr[y][x + 1].content
         )
           return false;
       }
