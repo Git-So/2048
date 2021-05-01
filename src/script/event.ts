@@ -46,9 +46,15 @@ export default class Event extends Basic {
     };
 
     // 主题
-    this.UI.themeBtnEl.addEventListener("click", () => this.UI.changeTheme());
+    this.UI.themeBtnEl.addEventListener("click", () => {
+      this.Config.theme = this.Config.theme == "light" ? "dark" : "light";
+      this.UI.syncTheme();
+    });
 
     // 重置
-    this.UI.restartBtnEl.addEventListener("click", () => this.UI.restart());
+    this.UI.restartBtnEl.addEventListener("click", () => {
+      this.Config.newGame();
+      this.UI.newGame();
+    });
   }
 }

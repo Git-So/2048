@@ -23,7 +23,29 @@ export default class Data extends Basic {
   static readonly COL = 4;
 
   static readonly NUMBER_ARR = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048];
-  static readonly RANDOM_LENGTH = 2;
+  static readonly RANDOM_LENGTH = 2; // 随机数字相对全部数字长度
+
+  // 数字格记录处理辅助数据
+  static readonly recordMap: [string, string][] = [
+    ["2", "1"],
+    ["4", "2"],
+    ["8", "3"],
+    ["16", "4"],
+    ["32", "5"],
+    ["64", "6"],
+    ["128", "7"],
+    ["256", "8"],
+    ["512", "9"],
+    ["1024", "A"],
+    ["2048", "B"],
+  ];
+  static readonly recordMapByIdx = new Map(Data.recordMap);
+  static readonly recordMapByNum = (function () {
+    let recordMapReverse = Data.recordMap.map((val) => {
+      return val.reverse();
+    });
+    return new Map(recordMapReverse as [string, string][]);
+  })();
 
   // 获取当前数字格数据
   getNumberCellRecord(): CellElement[][] {
@@ -45,6 +67,26 @@ export default class Data extends Basic {
     return cellArr;
   }
 
+  // 获取数字格数据字符状态
+  getRecordString(): string {
+    let str = "";
+    let cellArr = this.getNumberCellRecord();
+    for (let y = 0; y < Data.COL; y++) {
+      for (let x = 0; x < Data.ROW; x++) {
+        if (!cellArr[y][x]) {
+          str += "0";
+          continue;
+        }
+
+        str += !cellArr[y][x]
+          ? "0"
+          : Data.recordMapByIdx.get(cellArr[y][x].content.toString());
+      }
+    }
+
+    return str;
+  }
+
   // 游戏是否结束
   isOver(): boolean {
     // 是否满格
@@ -62,6 +104,7 @@ export default class Data extends Basic {
           return false;
       }
     }
+    return true;
   }
 
   // 获取随机空格

@@ -12,6 +12,13 @@ export default class UI extends Basic {
     return this._instance;
   }
 
+  // 主题
+  static readonly THEME_LIGHT = "light";
+  static readonly THEME_DARK = "dark";
+
+  // 防止连击太快
+  isLock = false;
+
   // 方向
   static readonly UP = 1;
   static readonly DOWN = 2;
@@ -26,6 +33,7 @@ export default class UI extends Basic {
   htmlEl = $("html");
 
   themeBtnEl = $("#game-theme");
+  themeBtnIconEl = $("#game-theme g-icon");
   restartBtnEl = $("#game-restart");
 
   scoreEl = $("#score"); // 分数
@@ -44,30 +52,62 @@ export default class UI extends Basic {
   }
 
   // 重置数据
-  restart() {
+  newGame() {
     this.UI.cleanScore();
     this.UI.cleanCell();
     this.UI.randomCell();
     this.UI.randomCell();
   }
 
-  // 切换主题
-  changeTheme() {
-    let theme = this.htmlEl.getAttribute("theme");
-    this.htmlEl.setAttribute("theme", theme == "light" ? "dark" : "light");
+  // 同步主题
+  syncTheme() {
+    this.themeBtnIconEl.setAttribute("name", this.Config.theme);
+    this.htmlEl.setAttribute("theme", this.Config.theme);
+  }
+
+  // 同步存档
+  syncRecord() {
+    if (!this.Config.record) return;
+
+    // 添加数字格
+    this.contentLayerEl.innerHTML = "";
+    let recordArr = this.Config.record.split("");
+    for (let [idx, cell] of recordArr.entries()) {
+      if (cell == "0") continue;
+
+      // 设置数字格信息
+      let cellNode = this.cellTemplateNode.cloneNode(true) as Element;
+      cellNode.setAttribute("y", Math.floor(idx / 4).toString());
+      cellNode.setAttribute("x", (idx % 4).toString());
+      cellNode.firstElementChild.setAttribute(
+        "content",
+        Data.recordMapByNum.get(cell)
+      );
+      this.contentLayerEl.appendChild(cellNode);
+    }
   }
 
   // 清理分数
   cleanScore() {
-    // 保存最高分
-    if (Number(this.topScoreEl.innerHTML) < Number(this.scoreEl.innerHTML))
-      this.topScoreEl.innerHTML = this.scoreEl.innerHTML;
     this.updateScore(0);
+  }
+
+  // 同步分数
+  syncScore() {
+    this.scoreEl.innerHTML = this.Config.score.toString();
+    this.topScoreEl.innerHTML = this.Config.topScore.toString();
   }
 
   // 更新分数
   updateScore(num: number) {
+    this.Config.score = num;
     this.scoreEl.innerHTML = num.toString();
+
+    // 更新最高分
+    if (this.Config.topScore < this.Config.score)
+      this.Config.topScore = this.Config.score;
+
+    this.syncScore();
   }
 
   // 增加分数
@@ -78,6 +118,7 @@ export default class UI extends Basic {
 
   // 清理数字格
   cleanCell() {
+    this.Config.record = "";
     this.contentLayerEl.innerHTML = "";
   }
 
@@ -91,13 +132,13 @@ export default class UI extends Basic {
     cellNode.setAttribute("x", cell.x.toString());
     cellNode.setAttribute("y", cell.y.toString());
     cellNode.firstElementChild.setAttribute("content", cell.content.toString());
-
     this.contentLayerEl.appendChild(cellNode);
   }
 
   // 玩游戏
   play(direction: number) {
-    let html = this.contentLayerEl.innerHTML;
+    if (this.isLock) return;
+    this.isLock = true;
 
     // 处理数据格移动合并
     let objArr = this.Data.getNumberCellRecord();
@@ -151,7 +192,20 @@ export default class UI extends Basic {
     }
 
     // 游戏未结束
-    if (html == this.contentLayerEl.innerHTML) return;
-    if (!this.Data.isOver()) this.randomCell();
+    console.log(`isOver:${this.Data.isOver()}`);
+    console.log(this.Data.getRecordString());
+
+    // 生成随机数字
+    this.randomCell();
+
+    // 开始游戏则保存记录
+    this.Config.record = this.Data.getRecordString();
+
+    // 状态解锁
+    this.isLock = false;
+
+    if (this.Data.isOver()) {
+      alert("游戏结束");
+    }
   }
 }
