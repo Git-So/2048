@@ -106,7 +106,7 @@ g-box {
       width: 25%;
       height: 25%;
       padding: 1%;
-      transition-duration: 100ms;
+      transition-duration: 120ms;
       transform: var(--translateX) var(--translateY);
 
       &::before {
@@ -145,20 +145,20 @@ g-box {
         width: 100%;
         height: 100%;
         border-radius: 0.5rem;
-        animation: insert 150ms ease-in 100ms;
+        animation: insert 200ms ease-in 200ms;
 
         @include outside-box-shadow;
         @include border-radius;
 
         &[is-merge="true"] {
-          animation: merge 250ms ease-in 100ms;
+          animation: merge 120ms ease-in 120ms;
         }
 
         &::before {
           content: attr(content);
           position: absolute;
           width: 100%;
-          background-color: var(--bg-color);
+          background-color: transparent;
           text-align: center;
           top: 50%;
           transform: translateY(-50%);
