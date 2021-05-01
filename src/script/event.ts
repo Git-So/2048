@@ -46,6 +46,29 @@ export default class Event extends Basic {
       }
     };
 
+    // 滑动事事件
+    let [startX, startY] = [0, 0];
+    this.UI.contentLayerEl.addEventListener(
+      "pointerdown",
+      (e: PointerEvent) => {
+        e.preventDefault();
+        startX = e.clientX;
+        startY = e.clientY;
+      }
+    );
+    this.UI.contentLayerEl.addEventListener("pointerup", (e: PointerEvent) => {
+      e.preventDefault();
+      let moveX = e.clientX - startX;
+      let moveY = e.clientY - startY;
+
+      [startX, startY] = [0, 0];
+
+      // 移动
+      Math.abs(moveX) > Math.abs(moveY)
+        ? this.UI.play(moveX > 0 ? DIRECTION.RIGHT : DIRECTION.LEFT)
+        : this.UI.play(moveY > 0 ? DIRECTION.DOWN : DIRECTION.DOWN);
+    });
+
     // 主题
     this.UI.themeBtnEl.addEventListener("click", () => {
       this.Config.theme = this.Config.theme == "light" ? "dark" : "light";
