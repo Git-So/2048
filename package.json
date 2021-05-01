@@ -4,9 +4,9 @@
   "description": "2048 小游戏",
   "main": "index.ts",
   "scripts": {
-    "build": "webpack --mode=production",
-    "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production",
+    "build": "del dist && webpack --mode=production",
+    "build:dev": "del dist && webpack --mode=development",
+    "build:prod": "del dist && webpack --mode=production",
     "watch": "webpack --watch",
     "serve": "webpack serve"
   },
@@ -22,7 +22,9 @@
   "devDependencies": {
     "@webpack-cli/generators": "^2.0.0",
     "autoprefixer": "^10.2.5",
+    "copy-webpack-plugin": "^8.1.1",
     "css-loader": "^5.2.4",
+    "del-cli": "^3.0.1",
     "html-webpack-plugin": "^5.3.1",
     "postcss": "^8.2.13",
     "postcss-loader": "^5.2.0",
@@ -33,6 +35,7 @@
     "typescript": "^4.2.4",
     "webpack": "^5.36.0",
     "webpack-cli": "^4.6.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "workbox-webpack-plugin": "^6.1.5"
   }
 }

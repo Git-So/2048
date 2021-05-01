@@ -1,6 +1,8 @@
 // Generated using webpack-cli http://github.com/webpack-cli
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { InjectManifest } = require("workbox-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -14,11 +16,18 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      title: "2048",
+      themeColor: "#F3F3F3",
       template: "src/index.html",
     }),
 
-    // Add your plugins here
-    // Learn more obout plugins from https://webpack.js.org/configuration/plugins/
+    //  PWA
+    new CopyWebpackPlugin({
+      patterns: [{ from: "pwa", to: "" }],
+    }),
+    new InjectManifest({
+      swSrc: path.resolve(__dirname, "pwa/sw.js"),
+    }),
   ],
   module: {
     rules: [
@@ -39,9 +48,6 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/,
         type: "asset",
       },
-
-      // Add your rules for custom modules here
-      // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
   resolve: {
