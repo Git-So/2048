@@ -23,7 +23,9 @@ export default class Game {
   run() {
     this.UI.syncTheme();
     this.UI.syncScore();
+    this.UI.syncMessage();
     !this.Config.record ? this.UI.newGame() : this.UI.syncRecord();
+    
     this.Event.register();
   }
 }

@@ -1,6 +1,8 @@
 import Game from "./game";
 import Basic from "./basic";
 import Data from "./data";
+import { DIRECTION, MSG_LEVEL } from "./type";
+import DEFAULT from "./default";
 
 const $ = (tag: string) => document.querySelector(tag);
 const $$ = (tag: string) => document.querySelectorAll(tag);
@@ -25,6 +27,11 @@ export default class UI extends Basic {
   static readonly LEFT = 3;
   static readonly RIGHT = 4;
 
+  // 状态提示等级
+  static readonly MSG_INFO = "info";
+  static readonly MSG_SUCCESS = "success";
+  static readonly MSG_ERROR = "error";
+
   // 数字格
   cellElArr = (): NodeListOf<Element> => {
     return $$("g-layer[is-content=true] g-cell");
@@ -41,6 +48,9 @@ export default class UI extends Basic {
   contentLayerEl = $("g-layer[is-content=true]"); // 数字内容层
   cellTemplateNode = $("g-template g-cell"); // 数字格模板
 
+  alertEl = $("g-alert"); // 提示框
+  alertMsgEl = $("g-alert span"); // 提示内容
+
   // 合并格子数字
   mergeCellNumber(el: Element, num: number) {
     let child = el.firstElementChild.cloneNode(true) as Element;
@@ -55,8 +65,23 @@ export default class UI extends Basic {
   newGame() {
     this.UI.cleanScore();
     this.UI.cleanCell();
+    this.sendMessage(DEFAULT.MSG_TEXT, DEFAULT.MSG_LEVEL);
+
     this.UI.randomCell();
     this.UI.randomCell();
+  }
+
+  // 消息通知
+  sendMessage(msg: string, level = UI.MSG_INFO) {
+    this.Config.msgText = msg;
+    this.Config.msgLevel = level;
+    this.alertEl.setAttribute("level", level);
+    this.alertMsgEl.innerHTML = msg;
+  }
+
+  // 同步消息通知
+  syncMessage() {
+    this.sendMessage(this.Config.msgText, this.Config.msgLevel);
   }
 
   // 同步主题
@@ -136,7 +161,7 @@ export default class UI extends Basic {
   }
 
   // 玩游戏
-  play(direction: number) {
+  play(direction: DIRECTION) {
     if (this.isLock) return;
     this.isLock = true;
 
@@ -148,13 +173,13 @@ export default class UI extends Basic {
           let [x, y, x2, y2] = [i, j, i, k];
           // 获取参照物
           switch (direction) {
-            case UI.DOWN:
+            case DIRECTION.DOWN:
               [x, y, x2, y2] = [i, Data.ROW - 1 - j, i, Data.ROW - 1 - k];
               break;
-            case UI.LEFT:
+            case DIRECTION.LEFT:
               [x, y, x2, y2] = [j, i, k, i];
               break;
-            case UI.RIGHT:
+            case DIRECTION.RIGHT:
               [x, y, x2, y2] = [Data.COL - 1 - j, i, Data.COL - 1 - k, i];
               break;
           }
@@ -166,9 +191,17 @@ export default class UI extends Basic {
           if (!objArr[y][x]) {
             objArr[y][x] = objArr[y2][x2];
             objArr[y2][x2] = undefined;
+
             objArr[y][x].el.setAttribute(
-              direction == UI.LEFT || direction == UI.RIGHT ? "x" : "y",
-              (direction == UI.LEFT || direction == UI.RIGHT ? x : y).toString()
+              // name
+              direction == DIRECTION.LEFT || direction == DIRECTION.RIGHT
+                ? "x"
+                : "y",
+              // value
+              (direction == DIRECTION.LEFT || direction == DIRECTION.RIGHT
+                ? x
+                : y
+              ).toString()
             );
             continue;
           }
@@ -191,21 +224,25 @@ export default class UI extends Basic {
       }
     }
 
-    // 游戏未结束
-    console.log(`isOver:${this.Data.isOver()}`);
-    console.log(this.Data.getRecordString());
+    // 开始游戏则保存记录
+    this.Config.record = this.Data.getRecordString();
 
     // 生成随机数字
     this.randomCell();
 
-    // 开始游戏则保存记录
-    this.Config.record = this.Data.getRecordString();
-
     // 状态解锁
     this.isLock = false;
 
+    // 游戏结束
     if (this.Data.isOver()) {
-      alert("游戏结束");
+      let isSuccess = this.Config.record.indexOf("B") > -1;
+
+      let level = isSuccess ? MSG_LEVEL.SUCCESS : MSG_LEVEL.ERROR; // 合成 2048 则胜利
+      let message = isSuccess
+        ? "恭喜合成2048获得游戏胜利！"
+        : "很遗憾！未合成2048";
+
+      this.sendMessage(message, level);
     }
   }
 }

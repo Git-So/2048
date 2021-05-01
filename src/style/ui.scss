@@ -195,7 +195,21 @@ g-alert {
   border-radius: 1.5em;
   margin: 0 1rem;
   padding: 0.8rem 0;
-  text-align: center;
+
+  &::before {
+    content: "💬";
+    font-size: 1.2rem;
+    margin-left: 2.2rem;
+    margin-right: 0.5rem;
+  }
+
+  &[level="success"]::before {
+    content: "👍";
+  }
+
+  &[level="error"]::before {
+    content: "🔥";
+  }
 }
 
 g-template {

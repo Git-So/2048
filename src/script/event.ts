@@ -1,6 +1,7 @@
 import Basic from "./basic";
 import Game from "./game";
 import UI from "./ui";
+import { DIRECTION } from "./type";
 
 export default class Event extends Basic {
   private static _instance: Event;
@@ -19,28 +20,28 @@ export default class Event extends Basic {
         case "w":
         case "W":
         case "ArrowUp":
-          this.UI.play(UI.UP);
+          this.UI.play(DIRECTION.UP);
           break;
         case "k":
         case "K":
         case "s":
         case "S":
         case "ArrowDown":
-          this.UI.play(UI.DOWN);
+          this.UI.play(DIRECTION.DOWN);
           break;
         case "j":
         case "J":
         case "a":
         case "A":
         case "ArrowLeft":
-          this.UI.play(UI.LEFT);
+          this.UI.play(DIRECTION.LEFT);
           break;
         case "l":
         case "L":
         case "d":
         case "D":
         case "ArrowRight":
-          this.UI.play(UI.RIGHT);
+          this.UI.play(DIRECTION.RIGHT);
           break;
       }
     };
@@ -52,9 +53,6 @@ export default class Event extends Basic {
     });
 
     // 重置
-    this.UI.restartBtnEl.addEventListener("click", () => {
-      this.Config.newGame();
-      this.UI.newGame();
-    });
+    this.UI.restartBtnEl.addEventListener("click", () => this.UI.newGame());
   }
 }

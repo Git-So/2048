@@ -1,3 +1,4 @@
+import DEFAULT from "./default";
 export default class Config {
   private static _instance: Config;
   static getInstance(): Config {
@@ -47,12 +48,21 @@ export default class Config {
   }
 
   // 提示信息
-  readonly KEY_MSG = "msg";
-  set msg(value: string) {
-    this.db.setItem(this.KEY_MSG, JSON.stringify(value));
+  readonly KEY_MSG_TEXT = "msg_text";
+  set msgText(value: string) {
+    this.db.setItem(this.KEY_MSG_TEXT, JSON.stringify(value));
   }
-  get msg(): string {
-    return JSON.parse(this.db.getItem(this.KEY_TOP_SCORE));
+  get msgText(): string {
+    return JSON.parse(this.db.getItem(this.KEY_MSG_TEXT));
+  }
+
+  // 提示信息等级
+  readonly KEY_MSG_LEVEL = "msg_level";
+  set msgLevel(value: string) {
+    this.db.setItem(this.KEY_MSG_LEVEL, JSON.stringify(value));
+  }
+  get msgLevel(): string {
+    return JSON.parse(this.db.getItem(this.KEY_MSG_LEVEL));
   }
 
   // 储存器是否存在数据
@@ -62,18 +72,11 @@ export default class Config {
 
   // 初始化数据
   init() {
-    this.has(this.KEY_THEME) || (this.theme = "light");
-    this.has(this.KEY_RECORD) || (this.record = "");
+    this.has(this.KEY_THEME) || (this.theme = DEFAULT.THEME);
+    this.has(this.KEY_RECORD) || (this.record = DEFAULT.RECORD);
     this.has(this.KEY_SCORE) || (this.score = 0);
     this.has(this.KEY_TOP_SCORE) || (this.topScore = 0);
-    this.has(this.KEY_MSG) || (this.msg = "");
-  }
-
-  // 新游戏
-  newGame() {
-    if (this.score > this.topScore) this.topScore = this.score;
-
-    this.score = 0;
-    this.record = "";
+    this.has(this.KEY_MSG_TEXT) || (this.msgText = DEFAULT.MSG_TEXT);
+    this.has(this.KEY_MSG_LEVEL) || (this.msgLevel = DEFAULT.MSG_LEVEL);
   }
 }
