@@ -39,7 +39,7 @@ export default class UI extends Basic {
 
   htmlEl = $("html");
 
-  boxEL = $("g-box")
+  boxEL = $("g-box");
 
   themeBtnEl = $("#game-theme");
   themeBtnIconEl = $("#game-theme g-icon");
@@ -211,8 +211,14 @@ export default class UI extends Basic {
             continue;
           }
 
-          // 当前数据和对比数据一致
+          // 限制最大合成
+          if (
+            objArr[y][x].content >= Data.NUMBER_ARR[Data.NUMBER_ARR.length - 1]
+          )
+            continue;
+
           if (objArr[y][x].content == objArr[y2][x2].content) {
+            // 当前数据和对比数据一致
             // 清除重复数据
             objArr[y2][x2].el.parentNode.removeChild(objArr[y2][x2].el);
             objArr[y2][x2] = undefined;
