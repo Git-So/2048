@@ -39,6 +39,8 @@ export default class UI extends Basic {
 
   htmlEl = $("html");
 
+  boxEL = $("g-box")
+
   themeBtnEl = $("#game-theme");
   themeBtnIconEl = $("#game-theme g-icon");
   restartBtnEl = $("#game-restart");
@@ -240,8 +242,6 @@ export default class UI extends Basic {
     this.isLock = false;
 
     // 游戏结束
-    console.log(`isOver:${this.Data.isOver()}`);
-
     if (this.Data.isOver()) {
       let isSuccess = this.Config.record.indexOf("B") > -1;
 

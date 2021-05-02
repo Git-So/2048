@@ -35,66 +35,41 @@
       }
     </style>
   </head>
-
   <body>
-    <g-main>
-      <!-- 状态栏 -->
-      <g-status-bar>
-        <g-result>
-          <g-label>
-            <g-icon name="score"></g-icon>
-            <g-value id="score">0</g-value>
-          </g-label>
-          <g-label>
-            <g-icon name="top"></g-icon>
-            <g-value id="top-score">0</g-value>
-          </g-label>
-        </g-result>
-        <g-setting>
-          <g-button id="game-theme">
-            <g-icon name="light"></g-icon>
-            <span>主题</span>
-          </g-button>
-          <g-button id="game-restart">
-            <g-icon name="restart"></g-icon>
-            <span>重置</span>
-          </g-button>
-        </g-setting>
-      </g-status-bar>
-
-      <!-- 数字容器 -->
-      <g-box>
-        <g-layer is-content="false">
-          <g-cell x="0" y="0"></g-cell>
-          <g-cell x="1" y="0"></g-cell>
-          <g-cell x="2" y="0"></g-cell>
-          <g-cell x="3" y="0"></g-cell>
-          <g-cell x="0" y="1"></g-cell>
-          <g-cell x="1" y="1"></g-cell>
-          <g-cell x="2" y="1"></g-cell>
-          <g-cell x="3" y="1"></g-cell>
-          <g-cell x="0" y="2"></g-cell>
-          <g-cell x="1" y="2"></g-cell>
-          <g-cell x="2" y="2"></g-cell>
-          <g-cell x="3" y="2"></g-cell>
-          <g-cell x="0" y="3"></g-cell>
-          <g-cell x="1" y="3"></g-cell>
-          <g-cell x="2" y="3"></g-cell>
-          <g-cell x="3" y="3"></g-cell>
-        </g-layer>
-        <g-layer is-content="true"></g-layer>
-      </g-box>
-
-      <!-- 提示 -->
-      <g-alert level="info">
-        <span>滑动或点击按钮开始游戏！</span>
-      </g-alert>
-
-      <!-- 模板 -->
-      <g-template>
-        <g-cell x="0" y="0"><g-number content="0"></g-number></g-cell>
-      </g-template>
-    </g-main>
+    <g-main
+      ><!-- 状态栏 --><g-status-bar
+        ><g-result
+          ><g-label
+            ><g-icon name="score"></g-icon
+            ><g-value id="score">0</g-value></g-label
+          ><g-label
+            ><g-icon name="top"></g-icon
+            ><g-value id="top-score">0</g-value></g-label
+          ></g-result
+        ><g-setting
+          ><g-button id="game-theme"
+            ><g-icon name="light"></g-icon><span>主题</span></g-button
+          ><g-button id="game-restart"
+            ><g-icon name="restart"></g-icon><span>重置</span></g-button
+          ></g-setting
+        ></g-status-bar
+      ><!-- 数字容器 --><g-box
+        ><g-layer is-content="false"
+          ><g-cell x="0" y="0"></g-cell><g-cell x="1" y="0"></g-cell
+          ><g-cell x="2" y="0"></g-cell><g-cell x="3" y="0"></g-cell
+          ><g-cell x="0" y="1"></g-cell><g-cell x="1" y="1"></g-cell
+          ><g-cell x="2" y="1"></g-cell><g-cell x="3" y="1"></g-cell
+          ><g-cell x="0" y="2"></g-cell><g-cell x="1" y="2"></g-cell
+          ><g-cell x="2" y="2"></g-cell><g-cell x="3" y="2"></g-cell
+          ><g-cell x="0" y="3"></g-cell><g-cell x="1" y="3"></g-cell
+          ><g-cell x="2" y="3"></g-cell><g-cell x="3" y="3"></g-cell></g-layer
+        ><g-layer is-content="true"></g-layer></g-box
+      ><!-- 提示 --><g-alert level="info"
+        ><span>滑动或点击按钮开始游戏！</span></g-alert
+      ><!-- 模板 --><g-template
+        ><g-cell x="0" y="0"
+          ><g-number content="0"></g-number></g-cell></g-template
+    ></g-main>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
